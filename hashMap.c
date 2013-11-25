@@ -183,7 +183,7 @@ void removeKey (struct hashMap * ht, KeyType k)
         
         int idx = stringHash1(k) % ht->tableSize;
         if(idx < 0){
-                idx += ht->tableSize;
+		_setTableSize(ht,ht->tableSize*2);
         }
         cur = ht->table[idx];
         while(strcmp(cur->key, k) != 0){
