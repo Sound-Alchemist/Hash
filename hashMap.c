@@ -124,10 +124,10 @@ void insertMap (struct hashMap * ht, KeyType k, ValueType v)
         }
 
 		//create the hash        
-        i = stringHash1(k) % ht->tableSize;
+        i = stringHash2(k) % ht->tableSize;
         
 		//resize if necessary, given hash value from previous assignment of i
-        if(i < 0){
+        if(tableLoad(ht) > 0.8){
                 _setTableSize(ht,ht->tableSize*2);
         }
 
@@ -146,17 +146,14 @@ void insertMap (struct hashMap * ht, KeyType k, ValueType v)
         }
 		//increase size
         ht->count++;
+		printf("%s %d\n", newNode->key, ht->count);
 }
 
 ValueType atMap (struct hashMap * ht, KeyType k)
 { 
     
-	int i = stringHash1(k) % ht->tableSize; //placeholder for the map finder
+	int i = stringHash2(k) % ht->tableSize; //placeholder for the map finder
     
-	//resize if necessary for the node to search the map    
-	if(i < 0){
-               _setTableSize(ht,ht->tableSize*2);
-        }
 
         struct hashLink* cur = ht->table[i]; //a new current node for search
         
@@ -168,17 +165,14 @@ ValueType atMap (struct hashMap * ht, KeyType k)
 
 int containsKey (struct hashMap * ht, KeyType k)
 {  
-	int i = stringHash1(k) % ht->tableSize; //placeholder for the map finder
+	int i = stringHash2(k) % ht->tableSize; //placeholder for the map finder
 	
-	//resize if necessary for the node to search the map
-        if(i < 0){
-                _setTableSize(ht,ht->tableSize*2);
-        }
         
         struct hashLink* cur = ht->table[i]; //a new current node for search
         
         while(cur){ //no specific condition, just any "yes" value will work -there's a lot of them!-
                 if(strcmp(cur->key, k) == 0){ //if we find it, return yes (1)
+						printf("Found a match with word %s!\n", k);
                         return 1;
                 }
                 cur = cur->next; // advance along the chain
@@ -191,7 +185,7 @@ void removeKey (struct hashMap * ht, KeyType k)
 	    struct hashLink* cur;
         struct hashLink* pre = NULL;
         
-        int idx = stringHash1(k) % ht->tableSize;
+        int idx = stringHash2(k) % ht->tableSize;
         if(idx < 0){
 		_setTableSize(ht,ht->tableSize*2);
         }
@@ -239,7 +233,7 @@ int emptyBuckets(struct hashMap *ht)
 
 float tableLoad(struct hashMap *ht)
 {  
-  return ht->count / ht->tableSize;
+  return (double) ht->count / (double) ht->tableSize;
 }
 
 /* print the hashMap */
