@@ -21,7 +21,6 @@ int main (int argc, const char * argv[]) {
 	struct hashMap *hashTable;	
 	int tableSize = 10;
 	clock_t timer;
-	FILE *fileptr;	
     /*
      this part is using command line arguments, you can use them if you wish
      but it is not required. DO NOT remove this code though, we will use it for
@@ -48,11 +47,15 @@ int main (int argc, const char * argv[]) {
         while(!feof(fp)){
                 char *word = getWord(fp);
                 if(word){ // if it's not null
-                        if(containsKey(&hashTable, word)){ //check for the current bucket
-                                int* value = atMap(&hashTable, word);
-                                ++(*value);
+                        if(containsKey(hashTable, word)){ //check for the current bucket
+                                int* value = (int*) atMap(hashTable, word);
+                                (*value) += 1; //We've seen it again!
+								printf("Seen %s %d times! At memory location %p\n", word, (*value), value);
                         } else {
-                                insertMap(&hashTable, word, 1);
+								int *value = malloc(sizeof(int));
+								(*value) = 1; //We start with 1 occurrence
+                                insertMap(hashTable, word, (void*) value);
+								printf("First time we've seen %s. Value is %d. At memory location %p\n", word, (*value), value);
                         }
                 }
         }

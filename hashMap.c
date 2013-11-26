@@ -90,12 +90,22 @@ void deleteMap(hashMap *ht) {
 
 void _setTableSize(struct hashMap * ht, int newTableSize)
 {
+	int i;
 	int curr_cap = ht->tableSize;
-	hashLink* curr_map = ht->table;
+	hashLink** curr_map = ht->table;
 	ht->table = malloc(newTableSize*sizeof(hashMap));
 	ht->tableSize=newTableSize;
 	//not quite done yet.... needs to move other nodes over
 	//but how??
+	for(i = 0; i < curr_cap; i++) {
+		while(curr_map[i] != NULL) {
+		   insertMap(ht, curr_map[i]->key, curr_map[i]->value);
+		   hashLink *next_link = curr_map[i]->next;
+		   free(curr_map[i]);
+		   curr_map[i] = next_link;
+		}
+	}
+	free(curr_map);
 }
 
 void insertMap (struct hashMap * ht, KeyType k, ValueType v)
@@ -153,7 +163,7 @@ ValueType atMap (struct hashMap * ht, KeyType k)
         while(strcmp(cur->key, k) != 0){ //compares the two strings, returns 0 if equal
                 cur = cur->next;//if not equal, advance along the chain
         }
-    return &cur->value; //return type for void* as defined with cur->value, gives the value member
+	return cur->value; //return type for void* as defined with cur->value, gives the value member
 }
 
 int containsKey (struct hashMap * ht, KeyType k)
@@ -186,9 +196,15 @@ void removeKey (struct hashMap * ht, KeyType k)
 		_setTableSize(ht,ht->tableSize*2);
         }
         cur = ht->table[idx];
+		if(cur == NULL) {
+			return; //No key of that value!
+		}
         while(strcmp(cur->key, k) != 0){
                 pre = cur;
                 cur = cur->next;
+				if(cur == NULL) {
+					return;
+				}
         }
         if(pre){
                 pre->next = cur->next;
