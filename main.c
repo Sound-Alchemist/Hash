@@ -50,15 +50,16 @@ int main (int argc, const char * argv[]) {
                         if(containsKey(hashTable, word)){ //check for the current bucket
                                 int* value = (int*) atMap(hashTable, word);
                                 (*value) += 1; //We've seen it again!
-								printf("Seen %s %d times! At memory location %p\n", word, (*value), value);
                         } else {
 								int *value = malloc(sizeof(int));
 								(*value) = 1; //We start with 1 occurrence
                                 insertMap(hashTable, word, (void*) value);
-								printf("First time we've seen %s. Value is %d. At memory location %p\n", word, (*value), value);
                         }
                 }
         }
+		
+		//Print the stuff
+		printConcordance(hashTable);
 	/*... concordance code ends here ...*/
 
 	printMap(hashTable);

@@ -260,3 +260,19 @@ void printMap (struct hashMap * ht)
 		}		
 	}
 }
+
+/* print the hashMap as concordance */
+void printConcordance (struct hashMap * ht)
+{
+	int i;
+	struct hashLink *temp;	
+	for(i = 0;i < capacity(ht); i++){
+		temp = ht->table[i];
+		while(temp != 0){			
+			printf("%s: ", temp->key);
+			printValue(temp->value);
+			printf("\n");
+			temp=temp->next;
+		}		
+	}
+}
