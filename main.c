@@ -50,7 +50,6 @@ int main (int argc, const char * argv[]) {
                         if(containsKey(hashTable, word)){ //check for the current bucket
                                 int* value = (int*) atMap(hashTable, word);
                                 (*value) += 1; //We've seen it again!
-								printf("Got here!\n");
                         } else {
 								int *value = malloc(sizeof(int));
 								(*value) = 1; //We start with 1 occurrence

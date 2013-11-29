@@ -95,8 +95,7 @@ void _setTableSize(struct hashMap * ht, int newTableSize)
 	hashLink** curr_map = ht->table;
 	ht->table = malloc(newTableSize*sizeof(hashMap));
 	ht->tableSize=newTableSize;
-	//not quite done yet.... needs to move other nodes over
-	//but how??
+	ht->count = 0; //We'll add them all back
 	for(i = 0; i < curr_cap; i++) {
 		while(curr_map[i] != NULL) {
 		   insertMap(ht, curr_map[i]->key, curr_map[i]->value);
@@ -146,7 +145,6 @@ void insertMap (struct hashMap * ht, KeyType k, ValueType v)
         }
 		//increase size
         ht->count++;
-		printf("%s %d\n", newNode->key, ht->count);
 }
 
 ValueType atMap (struct hashMap * ht, KeyType k)
@@ -172,7 +170,6 @@ int containsKey (struct hashMap * ht, KeyType k)
         
         while(cur){ //no specific condition, just any "yes" value will work -there's a lot of them!-
                 if(strcmp(cur->key, k) == 0){ //if we find it, return yes (1)
-						printf("Found a match with word %s!\n", k);
                         return 1;
                 }
                 cur = cur->next; // advance along the chain
