@@ -4,7 +4,7 @@ Morgan Shirley
 1. Two words that would have the same value using stringHash1() but not in stringHash2() would  be “cat” and “act”, since stringHash2 takes letter order into account, whereas stringhash1() is just concerned with the letters themselves.
 2. StringHash2() is able to generate more unique strings, therefore making the table structure more efficient in operations.
 3. No, the table will always be at the same size, as there are still the same number of raw elements going in
-4. Yes, because there are fewer collisions, the table's load will be smaller with stringHash2()
+4. No, the table till be the same size and have the same count, as there are still the same number of raw elements going in.
 5. Yes, having a greater quantity of unique hashes by using stringHash2() will change the emptyBuckets() function return
 6. Yes, the mod function will change the values enough with a prime number to change the number of buckets
 7. Increasing the size of the table has very little impact on overall performance.
