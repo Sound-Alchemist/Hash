@@ -19,7 +19,7 @@ char* getWord(FILE *file);
 int main (int argc, const char * argv[]) {
 	const char* filename;
 	struct hashMap *hashTable;	
-	int tableSize = 10;
+	int tableSize = 160;
 	clock_t timer;
     /*
      this part is using command line arguments, you can use them if you wish
