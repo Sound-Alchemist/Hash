@@ -120,15 +120,14 @@ void insertMap (struct hashMap * ht, KeyType k, ValueType v)
 		//here, we check to see it it contains the key already given KeyType k
         if(containsKey(ht, k)==1){
                 removeKey(ht, k);
-        }
-
-		//create the hash        
-        i = stringHash2(k) % ht->tableSize;
-        
+        }
 		//resize if necessary, given hash value from previous assignment of i
         if(tableLoad(ht) > 0.8){
                 _setTableSize(ht,ht->tableSize*2);
         }
+		//create the hash        
+        i = stringHash2(k) % ht->tableSize;
+        
 
         //find the empty key set, insert first node as newNode
 		if(ht->table[i]==0){
